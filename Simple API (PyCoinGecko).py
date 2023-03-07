@@ -18,7 +18,7 @@ data = pd.DataFrame(bitcoin_price_data, columns=['TimeStamp', 'Price'])
 
 data['date'] = data['TimeStamp'].apply(lambda d: datetime.date.fromtimestamp(d/1000.0))
 
-candlestick_data = data.groupby(data.date, as_index=False)
+candlestick_data = data.groupby(data.date, as_index=False).agg({"Price": ['min', 'max', 'first', 'last']})
 
 fig = go.Figure(data=[go.Candlestick(x=candlestick_data['date'],
                 open=candlestick_data['Price']['first'], 
